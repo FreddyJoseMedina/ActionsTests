@@ -19,6 +19,8 @@ jobs:
           echo "Step 3..."
       - name: check dir
         run: ls
+      - name: check Database
+        run: cd Database && ls        
       - name: check date
         run: date
       - name: Say Goodbye
