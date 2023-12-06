@@ -14,5 +14,9 @@ jobs:
           echo "Step 3..."
       - name: check dir
         run: ls
+      - name: check date
+        run: date
+      - name: check dir2
+        run: ls-l
       - name: Say Goodbye
         run: echo "Goodbye!"
