@@ -21,7 +21,9 @@ jobs:
       - name: check dir
         run: ls
       - name: check Database
-        run: cd Database && ls        
+        run: cd Database && ls
+      - name: check grep
+        run: for file in *; do if grep -q comment $file ; then echo found else echo not found fi done
       - name: check date
         run: date
       - name: Say Goodbye
