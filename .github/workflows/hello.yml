@@ -1,15 +1,15 @@
 name: hello-world-II
 on:
-  push:
+  pull_request:
+    types: [opened, reopened]
 jobs:
   job-name:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Say Hello
         run: echo "Hello world!"
       - name: Do stuff
