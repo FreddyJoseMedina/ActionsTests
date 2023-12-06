@@ -23,7 +23,7 @@ jobs:
       - name: check Database
         run: cd Database && ls
       - name: check grep
-        run: for file in *; do echo $FILE; done
+        run: for file in *; do echo $file; done
       - name: check date
         run: date
       - name: Say Goodbye
