@@ -23,7 +23,14 @@ jobs:
       - name: check Database
         run: cd Database && ls
       - name: check grep
-        run: cd Database && for file in *; do echo $file; done
+        run: |
+          cd Database && for file in *; do
+          [ -f "$file" ] || continue
+          IFS= read -r line < "$file" || [ -n "$line" ] || continue
+          case $line in
+          (--comment) printf '%s\n' "$file"
+          esac
+          done
       - name: check date
         run: date
       - name: Say Goodbye
