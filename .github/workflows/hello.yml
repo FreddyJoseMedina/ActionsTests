@@ -23,7 +23,7 @@ jobs:
       - name: check Database
         run: cd Database && ls
       - name: check grep
-        run: cd Database && for file in *; do if grep -q comment $file ; then echo found else echo not found fi done
+        run: cd Database && for file in *; do if grep -q comment $file ; then echo found else echo not found fi; done
       - name: check date
         run: date
       - name: Say Goodbye
