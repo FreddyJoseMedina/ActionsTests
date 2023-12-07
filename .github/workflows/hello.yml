@@ -69,9 +69,9 @@ jobs:
             const success = '${{ job.status }}' === 'success';
             const body = `Workflow ${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\nMore details at: ${url}`;
 
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body
-            }) 
+            #await github.rest.issues.createComment({
+              #issue_number: context.issue.number,
+              #owner: context.repo.owner,
+              #repo: context.repo.repo,
+              #body: body
+            #}) 
