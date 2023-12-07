@@ -37,7 +37,7 @@ jobs:
           [ -f "$file" ] || continue
           IFS= read -r line < "$file" || [ -n "$line" ] || continue
           case $line in
-          ($keyWord);; *) ((i=i+1)) && echo File: ["$file"], No match Liquibase Annotation on first line.;;
+          ($keyWord);; *) array[$i]="File: ["$file"], No match Liquibase Annotation on first line." ((i=i+1)) && echo $array[$i];;
           esac
           done &&
           if (($i != 0)); then 
@@ -45,7 +45,7 @@ jobs:
           fi; 
         id: run_tests
       - name: check date
-        run: date && echo "${{ steps.run_tests.outputs }}"
+        run: date && echo "${{join(steps.run_tests.outputs.array, '\n')}}"
       - name: Say Goodbye
         run: echo "Goodbye!"
       
