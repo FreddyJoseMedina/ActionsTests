@@ -17,8 +17,7 @@ jobs:
       - run: echo ${{ env.GIT_DIFF }}. 
       - run: |
             VAR=$(eval echo ${{ env.GIT_DIFF }}) && echo $VAR &&
-            IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[1]}. 
-            && echo ${myvar[0]}.
+            IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[1]} && echo ${myvar[0]}.
 
           
 
