@@ -32,8 +32,8 @@ jobs:
           case $line in
           ($keyWord);; *) ((i=i+1)) && echo ["$file"] No match Liquibase Annotation on first line.;;
           esac
-          done && echo $i   
+          done && echo $keyWord   
       - name: check date
-        run: date
+        run: date && echo $i
       - name: Say Goodbye
         run: echo "Goodbye!"
