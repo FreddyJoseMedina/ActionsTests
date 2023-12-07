@@ -14,8 +14,8 @@ jobs:
         with:
           PATTERNS: '*.sql'
           RELATIVE: 'Database'
-      - run: sed -e 's|["'\'']||g' ${{ env.GIT_DIFF }} && echo ${{ env.GIT_DIFF }}.
-      - run: IFS=' ' && read -ra myvar <<< "${{ env.GIT_DIFF }} | tr -d \'" && echo "Number of elements $myvar" && echo ${myvar[0]}. && echo ${myvar[1]}.
+      - run: echo ${{ env.GIT_DIFF }}.
+      - run: IFS=' ' && read -ra myvar <<< "${{ env.GIT_DIFF }}| tr -d \'" && echo "Number of elements $myvar" && echo ${myvar[0]}. && echo ${myvar[1]}.
 
           
 
