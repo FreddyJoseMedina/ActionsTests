@@ -3,34 +3,20 @@ on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
 jobs:
-
-
-  changedfiles:
+  job-name:
     runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      all: ${{ steps.changes.outputs.all}}
-      ts: ${{ steps.changes.outputs.ts }}
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
-        # Make sure we have some code to diff.
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Get changed files
-        id: changes
-        # Set outputs using the command.
-        run: |
-          echo "::set-output name=all::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | xargs)"
-          echo "::set-output name=ts::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep .ts$ | xargs)"
-  lint:
-    runs-on: ubuntu-latest
-    # require the first job to have ran
-    needs: changedfiles
-    # only run there are changed files
-    if: ${{needs.changedfiles.outputs.ts}}
-    steps:
-      - name: echo changed files
-        run: echo ${{needs.changedfiles.outputs.ts}}          
-  
+      - uses: actions/checkout@v2
+      - uses: technote-space/get-diff-action@v6
+        with:
+          PATTERNS: |
+            +(src|__tests__)/**/*.ts
+            !src/exclude.ts
+          FORMAT: json
+      - run: echo '${{ env.GIT_DIFF }}' | jq .  
 
           
 
