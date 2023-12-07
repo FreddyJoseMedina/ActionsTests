@@ -28,6 +28,7 @@ jobs:
         run: ls
       - name: check Database
         run: cd Database && ls
+        id: id_1
       - name: check grep
         run: |
           cd Database &&
@@ -54,10 +55,11 @@ jobs:
         with:
           script: |
             const message = '${{join(steps.run_tests.outputs.*, '\n')}}';
+            const message1 = '${{join(steps.id_1.outputs.*, '\n')}}';
             const name = '${{ github.workflow   }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
-            const body = `${message}, ${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
+            const body = `${message1}, ${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
