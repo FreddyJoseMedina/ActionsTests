@@ -9,6 +9,11 @@ jobs:
       contents: read
       pull-requests: write
     steps:
+      - name: Hello world action step
+        id: hello
+        uses: FreddyJoseMedina/hello-world-javascript-action@v1.1
+        with:
+          who-to-greet: 'Freddy'
       - uses: actions/checkout@v2
       - uses: technote-space/get-diff-action@v6
         with:
