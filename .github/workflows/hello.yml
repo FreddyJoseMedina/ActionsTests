@@ -24,6 +24,7 @@ jobs:
         run: cd Database && ls
       - name: check grep
         run: |
+          i=0 &&
           cd Database && for file in *; do
           [ -f "$file" ] || continue
           IFS= read -r line < "$file" || [ -n "$line" ] || continue
