@@ -35,7 +35,7 @@ jobs:
 
       - name: check first line
         run: |
-          cd Database &&
+          cd Database && VAR=$(eval echo ${{ env.GIT_DIFF }}) && IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[1]} && echo ${myvar[0]} &&
           i=0 && keyWord="--liquibase formatted sql" &&
           for file in *; do
           [ -f "$file" ] || continue
