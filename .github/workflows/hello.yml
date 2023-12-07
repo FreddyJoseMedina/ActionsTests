@@ -14,7 +14,7 @@ jobs:
         with:
           PATTERNS: '*.sql'
           RELATIVE: |
-                  'Database', 'src'
+                  'Database'
           
       - run: echo ${{ env.GIT_DIFF }}. 
       - run: |
