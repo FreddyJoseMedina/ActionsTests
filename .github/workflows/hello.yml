@@ -30,10 +30,10 @@ jobs:
           [ -f "$file" ] || continue
           IFS= read -r line < "$file" || [ -n "$line" ] || continue
           case $line in
-          ($keyWord);; *) ((i=i+1)) && echo ["$file"] No match Liquibase Annotation on first line.;;
+          ($keyWord);; *) ((i=i+1)) && echo File: ["$file"], No match Liquibase Annotation on first line.;;
           esac
-          done && echo $i &&
-          if (($i != 0)); then printf '%s\n' "Test case x failed"
+          done &&
+          if (($i != 0)); then 
           exit 1 
           fi;
       - name: check date
