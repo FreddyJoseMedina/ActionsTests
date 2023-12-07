@@ -24,13 +24,13 @@ jobs:
         run: cd Database && ls
       - name: check grep
         run: |
-          i=0 && keyWord=='--liquibase formatted sql'
-          cd Database && 
+          cd Database &&
+          i=0 && keyWord=='--liquibase formatted sql' &&
           for file in *; do
           [ -f "$file" ] || continue
           IFS= read -r line < "$file" || [ -n "$line" ] || continue
           case $line in
-          ("$keyWord");; *) echo "$file" No match Liquibase Annotation on first line.;;
+          ($keyWord);; *) echo "$file" No match Liquibase Annotation on first line.;;
           esac
           done && echo $i   
       - name: check date
