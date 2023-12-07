@@ -9,13 +9,10 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - name: Hello world action step
-        id: hello
-        uses: FreddyJoseMedina/hello-world-javascript-action@v1.2
-        with:
-          who-to-greet: 'Freddy'
+
       - uses: actions/checkout@v2
       - uses: technote-space/get-diff-action@v6
+        id: ident
         with:
           PATTERNS: '*.sql'
           RELATIVE: 'Database'
@@ -26,7 +23,12 @@ jobs:
             VAR=$(eval echo ${{ env.GIT_DIFF }}) && echo $VAR &&
             IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[1]} && echo ${myvar[0]}.
 
-          
+
+      - name: Hello world action step
+        id: hello
+        uses: FreddyJoseMedina/hello-world-javascript-action@v1.3
+        with:
+          who-to-greet: "${{ steps.ident.outputs.GIT_DIFF }}"
 
       - name: Say Hello
         run: echo "Hello world! " && export STRING="${{ env.GIT_DIFF }}" && echo ${STRING[1]}.
