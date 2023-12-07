@@ -37,7 +37,7 @@ jobs:
           [ -f "$file" ] || continue
           IFS= read -r line < "$file" || [ -n "$line" ] || continue
           case $line in
-          ($keyWord);; *) array[$i]="File: ["$file"], No match Liquibase Annotation on first line." ((i=i+1)) && echo $array[$i];;
+          ($keyWord);; *) array[$i]="File: ["$file"], No match Liquibase Annotation on first line." && ((i=i+1)) && echo $array[$i];;
           esac
           done &&
           if (($i != 0)); then 
