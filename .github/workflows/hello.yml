@@ -25,7 +25,7 @@ jobs:
       - name: check grep
         run: |
           cd Database &&
-          i=0 && keyWord=='--liquibase formatted sql' &&
+          i=0 && keyWord="--liquibase formatted sql" &&
           for file in *; do
           [ -f "$file" ] || continue
           IFS= read -r line < "$file" || [ -n "$line" ] || continue
