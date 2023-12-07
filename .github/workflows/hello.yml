@@ -30,7 +30,7 @@ jobs:
           [ -f "$file" ] || continue
           IFS= read -r line < "$file" || [ -n "$line" ] || continue
           case $line in
-          ($keyWord);; *) echo "$file" No match Liquibase Annotation on first line.;;
+          ($keyWord);; *) ((i=i+1)) && echo ["$file"] No match Liquibase Annotation on first line.;;
           esac
           done && echo $i   
       - name: check date
