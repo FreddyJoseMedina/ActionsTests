@@ -8,11 +8,7 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    steps:
-      - uses: actions/labeler@v4
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          
+    steps:          
       - name: Get PR branch
         uses: xt0rted/pull-request-comment-branch@v1
         id: comment-branch
