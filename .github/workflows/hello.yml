@@ -16,7 +16,7 @@ jobs:
           RELATIVE: 'Database'
       - run: echo ${{ env.GIT_DIFF }}. 
       - run: |
-            VAR=$(eval echo ${{ env.GIT_DIFF }}) && echo $VAR
+            VAR=$(eval echo ${{ env.GIT_DIFF }}) && echo $VAR &&
             IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[0]}. 
             && echo ${myvar[1]}.
 
