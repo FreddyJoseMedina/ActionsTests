@@ -28,7 +28,7 @@ jobs:
         id: hello
         uses: FreddyJoseMedina/hello-world-javascript-action@v1.3
         with:
-          who-to-greet: $(eval echo ${{ env.GIT_DIFF }})
+          who-to-greet: ${{ env.GIT_DIFF }}
 
       - name: Say Hello
         run: echo "Hello world! " && export STRING="${{ env.GIT_DIFF }}" && echo ${STRING[1]}.
