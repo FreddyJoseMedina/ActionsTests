@@ -23,7 +23,7 @@ jobs:
       - name: print json diff
         env:
           DIFF: ${{ steps.git-diff-action.outputs.json-diff-path }}
-        run: cat $DIFF
+        run: echo $DIFF && echo next ${{ steps.git-diff-action.outputs.raw-diff-path }}
 
       - name: Say Hello
         run: echo "Hello world!"
