@@ -20,7 +20,7 @@ jobs:
           
 
       - name: Say Hello
-        run: echo "Hello world! " && export STRING="${{ env.GIT_DIFF }}" && echo ${STRING[0]}. && echo ${GIT_DIFF[1]}.
+        run: echo "Hello world! " && export STRING="${{ env.GIT_DIFF }}" && echo ${STRING[0]}. && echo ${env.GIT_DIFF[1]}.
       - name: Do stuff
         run: |
           echo "Step 1..."
