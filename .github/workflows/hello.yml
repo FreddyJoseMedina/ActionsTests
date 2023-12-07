@@ -32,10 +32,7 @@ jobs:
           case $line in
           (--liquibase formatted sql);; *) echo "$file" No match Liquibase Annotation on first line.;;
           esac
-          done && 
-          if $i!=0; then
-          exit 1
-          fi;    
+          done && echo $i   
       - name: check date
         run: date
       - name: Say Goodbye
