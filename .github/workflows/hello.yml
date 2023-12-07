@@ -45,7 +45,7 @@ jobs:
           fi; 
         id: run_tests
       - name: check date
-        run: date && echo ${{join(steps.run_tests.outputs.*, '\n')}}
+        run: date && echo "${{ steps.run_tests.outputs.* }}"
       - name: Say Goodbye
         run: echo "Goodbye!"
       
