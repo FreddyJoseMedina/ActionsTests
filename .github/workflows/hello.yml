@@ -41,9 +41,10 @@ jobs:
           done &&
           if (($i != 0)); then 
           exit 1 
-          fi;        
+          fi; 
+        id: run_tests
       - name: check date
-        run: date
+        run: date && echo ${{join(steps.run_tests.outputs.*, '\n')}}
       - name: Say Goodbye
         run: echo "Goodbye!"
       
@@ -52,6 +53,7 @@ jobs:
         if: always()
         with:
           script: |
+            const message= ${{join(steps.run_tests.outputs.*, '\n')}}
             const name = '${{ github.workflow   }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
