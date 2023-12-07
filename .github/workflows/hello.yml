@@ -14,7 +14,8 @@ jobs:
         with:
           PATTERNS: '*.sql'
           RELATIVE: 'Database'
-      - run: echo ${{ env.GIT_DIFF }} 
+      - run: echo ${{ env.GIT_DIFF }}
+      - run: IFS=' ' && read -ra myvar <<< "${{ env.GIT_DIFF }}" && echo "Number of elements $myvar" && echo ${myvar[0]}.
 
           
 
