@@ -6,11 +6,14 @@ jobs:
   job-name:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Get PR branch
+        uses: xt0rted/pull-request-comment-branch@v1
+        id: comment-branch
+
+      - name: Checkout PR branch
+        uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 1
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
       - name: Say Hello
         run: echo "Hello world!"
       - name: Do stuff
