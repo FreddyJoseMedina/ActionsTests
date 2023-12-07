@@ -1,4 +1,4 @@
-name: hello-world-II
+name: Check Liquibase Annotations.
 on:
   pull_request:
     types: [opened, reopened, edited, synchronize]
@@ -28,8 +28,8 @@ jobs:
         run: ls
       - name: check Database
         run: cd Database && ls
-        id: id_1
-      - name: check grep
+
+      - name: check first line
         run: |
           cd Database &&
           i=0 && keyWord="--liquibase formatted sql" &&
@@ -37,15 +37,15 @@ jobs:
           [ -f "$file" ] || continue
           IFS= read -r line < "$file" || [ -n "$line" ] || continue
           case $line in
-          ($keyWord);; *) array[$i]="File: ["$file"], No match Liquibase Annotation on first line." && ((i=i+1)) && echo $array[$i];;
+          ($keyWord);; *) ((i=i+1)) && echo File: ["$file"], No match Liquibase Annotation on first line.;;
           esac
           done &&
           if (($i != 0)); then 
-          exit 0 
+          exit 1 
           fi; 
-        id: run_tests
+          
       - name: check date
-        run: date && echo "${{steps.run_tests.outputs.array}}"
+        run: date 
       - name: Say Goodbye
         run: echo "Goodbye!"
       
@@ -54,12 +54,10 @@ jobs:
         if: always()
         with:
           script: |
-            const message = '${{join(steps.run_tests.outputs.*, '\n')}}';
-            const message1 = '${{join(steps.id_1.outputs.*, '\n')}}';
             const name = '${{ github.workflow   }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
-            const body = `${message1}, ${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
+            const body = `Workflow ${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\nMore details at: ${url}`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
