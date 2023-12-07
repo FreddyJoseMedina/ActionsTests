@@ -12,11 +12,9 @@ jobs:
       - uses: actions/checkout@v2
       - uses: technote-space/get-diff-action@v6
         with:
-          PATTERNS: |
-            +(src|__tests__)/**/*.ts
-            !src/exclude.ts
-          FORMAT: json
-      - run: echo '${{ env.GIT_DIFF }}' | jq .  
+          PATTERNS: '*.sql'
+          RELATIVE: 'Database'
+      - run: echo ${{ env.GIT_DIFF }} 
 
           
 
