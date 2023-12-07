@@ -1,1 +1,1 @@
---comment
+--liquibase formatted sql
