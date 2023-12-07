@@ -36,6 +36,12 @@ jobs:
           else
           exit 0
           fi;
+      - name: A/B Check
+        if: $i!=0
+        uses: actions/github-script@v3
+        with:
+          script: |
+            core.setFailed('envA and envB are not equivalent!')    
       - name: check date
         run: date
       - name: Say Goodbye
