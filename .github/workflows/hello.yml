@@ -13,8 +13,8 @@ jobs:
       - uses: technote-space/get-diff-action@v6
         with:
           PATTERNS: '*.sql'
-          RELATIVE: |
-                  'Database'
+          RELATIVE: 'Database'
+
           
       - run: echo ${{ env.GIT_DIFF }}. 
       - run: |
