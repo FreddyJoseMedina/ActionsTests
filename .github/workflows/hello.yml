@@ -15,12 +15,12 @@ jobs:
           PATTERNS: '*.sql'
           RELATIVE: 'Database'
       - run: echo ${{ env.GIT_DIFF }}
-      - run: IFS=' ' && read -ra myvar <<< ${{ env.GIT_DIFF }} && echo "Number of elements $myvar" && echo ${myvar[1]}.
+      - run: IFS=' ' && read -ra myvar <<< "${{ env.GIT_DIFF }}" && echo "Number of elements $myvar" && echo ${myvar[1]}.
 
           
 
       - name: Say Hello
-        run: echo "Hello world! " && export STRING="${{ env.GIT_DIFF }}" && echo ${STRING[0]}. && echo ${{ env.GIT_DIFF }}
+        run: echo "Hello world! " && export STRING="${{ env.GIT_DIFF }}" && echo ${STRING[0]}. && echo ${GIT_DIFF[1]}.
       - name: Do stuff
         run: |
           echo "Step 1..."
