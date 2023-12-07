@@ -33,8 +33,9 @@ jobs:
           ($keyWord);; *) ((i=i+1)) && echo ["$file"] No match Liquibase Annotation on first line.;;
           esac
           done && echo $i &&
-          if $i>0; then echo "game over" &&
-          exit 1 fi;
+          if (($i != 0)); then printf '%s\n' "Test case x failed"
+          exit 1 
+          fi;
       - name: check date
         run: date
       - name: Say Goodbye
