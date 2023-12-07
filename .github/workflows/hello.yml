@@ -8,15 +8,16 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    steps:          
-      - name: Get PR branch
-        uses: xt0rted/pull-request-comment-branch@v1
-        id: comment-branch
-
-      - name: Checkout PR branch
-        uses: actions/checkout@v3
+    steps:
+      - uses: actions/checkout@v2
+      - uses: technote-space/get-diff-action@v6
         with:
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
+          PATTERNS: |
+            +(src|__tests__)/**/*.ts
+            !src/exclude.ts
+          FILES: |
+            .sql
+
       - name: Say Hello
         run: echo "Hello world!"
       - name: Do stuff
