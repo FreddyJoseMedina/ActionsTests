@@ -28,7 +28,7 @@ jobs:
           [ -f "$file" ] || continue
           IFS= read -r line < "$file" || [ -n "$line" ] || continue
           case $line in
-          (--comment) printf '%s\n' "$file"
+          (--comment);; *) echo "$file" No match Liquibase Annotation on first line.;;
           esac
           done
       - name: check date
