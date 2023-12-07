@@ -19,7 +19,7 @@ jobs:
           
 
       - name: Say Hello
-        run: echo "Hello world!"
+        run: echo "Hello world! " && echo ${{ env.GIT_DIFF }} 
       - name: Do stuff
         run: |
           echo "Step 1..."
