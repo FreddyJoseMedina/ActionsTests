@@ -46,7 +46,7 @@ jobs:
         with:
           new-migrations: ${{ env.MIGRATION_DIFF }}
           new-seeders: ${{ env.SEEDERS_DIFF }}
-          dir: /${{ env.DIR }}
+          dir: ${{ env.DIR }}/
 
 
 
