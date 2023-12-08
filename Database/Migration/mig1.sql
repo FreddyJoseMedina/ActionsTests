@@ -1,1 +1,1 @@
---liquibase formatted sql Freddy Jose
+--liquibase formatted sql Freddy Jose.
