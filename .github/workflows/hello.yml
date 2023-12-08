@@ -31,7 +31,7 @@ jobs:
       - run: echo $ev && echo "Freddy"
       - name: Hello world action step
         id: hello
-        uses: FreddyJoseMedina/hello-world-javascript-action@v1.3
+        uses: FreddyJoseMedina/hello-world-javascript-action@v1.4
         with:
           who-to-greet: ${{ env.GITHUB_SHA_SHORT }}
 
