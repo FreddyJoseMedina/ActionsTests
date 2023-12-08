@@ -42,7 +42,7 @@ jobs:
 
       - name: Hello world action step
         id: hello
-        uses: FreddyJoseMedina/hello-world-javascript-action@v1.8
+        uses: FreddyJoseMedina/hello-world-javascript-action@v1.9
         with:
           new-migrations: ${{ env.MIGRATION_DIFF }}
           new-seeders: ${{ env.SEEDERS_DIFF }}
