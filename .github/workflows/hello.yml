@@ -43,7 +43,7 @@ jobs:
           echo "Step 2..."
           echo "Step 3..."
       - name: check dir
-        run: ls
+        run: ls && pwd
       - name: check Database
         run: cd Database && ls
 
