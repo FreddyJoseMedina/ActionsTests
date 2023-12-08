@@ -19,21 +19,20 @@ jobs:
 
           
       - run: echo ${{ env.GIT_DIFF }}. 
-      - id: ss 
-        run: |
+      - run: |
             VAR=$(eval echo ${{ env.GIT_DIFF }}) && echo $VAR && export ev=$VAR &&
             IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[1]} && echo ${myvar[0]}.
 
-      - run: echo "GITHUB_SHA_SHORT=$(eval echo ${{ env.GIT_DIFF }})" >> $GITHUB_ENV
+      - run: echo "MIGRATION_DIFF=$(eval echo ${{ env.GIT_DIFF }})" >> $GITHUB_ENV
       - name: Name
-        run: echo $GITHUB_SHA_SHORT      
+        run: echo $MIGRATION_DIFF      
 
       - run: echo $ev && echo "Freddy"
       - name: Hello world action step
         id: hello
         uses: FreddyJoseMedina/hello-world-javascript-action@v1.4
         with:
-          who-to-greet: ${{ env.GITHUB_SHA_SHORT }}
+          who-to-greet: ${{ env.MIGRATION_DIFF }}
 
       - name: Say Hello
         run: echo "Hello world! " && export STRING="${{ env.GIT_DIFF }}" && echo ${STRING[1]}.
