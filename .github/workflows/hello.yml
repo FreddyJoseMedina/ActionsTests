@@ -21,9 +21,11 @@ jobs:
       - run: echo ${{ env.GIT_DIFF }}. 
       - id: ss 
         run: |
-            VAR=$(eval echo ${{ env.GIT_DIFF }}) && echo $VAR &&
+            VAR=$(eval echo ${{ env.GIT_DIFF }}) && echo $VAR && export ev=$VAR &&
             IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[1]} && echo ${myvar[0]}.
+            
 
+      - run: echo ${{ env.ev } && echo "Freddy"
       - name: Hello world action step
         id: hello
         uses: FreddyJoseMedina/hello-world-javascript-action@v1.3
