@@ -15,7 +15,7 @@ jobs:
         id: ident
         with:
           PATTERNS: '*.sql'
-          RELATIVE: 'Database'
+          RELATIVE: 'Database/Migration'
 
           
       - run: echo ${{ env.GIT_DIFF }}. 
