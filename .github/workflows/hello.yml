@@ -25,7 +25,7 @@ jobs:
             IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[1]} && echo ${myvar[0]}.
             
 
-      - run: echo ${{ env.ev } && echo "Freddy"
+      - run: echo ${{ env.ev }} && echo "Freddy"
       - name: Hello world action step
         id: hello
         uses: FreddyJoseMedina/hello-world-javascript-action@v1.3
