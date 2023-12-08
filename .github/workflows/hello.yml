@@ -19,6 +19,7 @@ jobs:
 
           
       - run: echo ${{ env.GIT_DIFF }}. 
+        name: ident1
       - run: |
             VAR=$(eval echo ${{ env.GIT_DIFF }}) && echo $VAR && export ev=$VAR &&
             IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[1]} && echo ${myvar[0]}.
@@ -33,6 +34,14 @@ jobs:
         uses: FreddyJoseMedina/hello-world-javascript-action@v1.4
         with:
           who-to-greet: ${{ env.MIGRATION_DIFF }}
+
+      - uses: technote-space/get-diff-action@v6
+        name: ident2
+        id: ident2
+        with:
+          PATTERNS: '*.sql'
+          RELATIVE: 'Database/Seeders'
+      - run: echo ${{ env.GIT_DIFF }}. 
 
       - name: Say Hello
         run: echo "Hello world! " && export STRING="${{ env.GIT_DIFF }}" && echo ${STRING[1]}.
