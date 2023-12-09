@@ -2,7 +2,7 @@
 
 SET search_path TO wbtvd_owner, public;
 
-
+--commenT: {FILENAME}
 
 --changeset {AUTHOR}:1_{ID} logicalFilePath:{migrations/seeders}/{FILENAME}
 
