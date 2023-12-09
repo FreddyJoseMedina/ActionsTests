@@ -19,7 +19,7 @@ jobs:
       - run: echo ${{ env.GIT_DIFF }}. 
       - run: echo "MIGRATION_DIFF=$(eval echo ${{ env.GIT_DIFF }})" >> $GITHUB_ENV
       
-      - name: Name1
+      - name: Migrations files changes.
         run: echo $MIGRATION_DIFF 
 
 
@@ -32,55 +32,21 @@ jobs:
       - run: echo ${{ env.GIT_DIFF }}. 
       - run: echo "SEEDERS_DIFF=$(eval echo ${{ env.GIT_DIFF }})" >> $GITHUB_ENV
       
-      - name: Name2
+      - name: Seeders files changes.
         run: echo $SEEDERS_DIFF    
 
       - run: filepath=`pwd` && echo "DIR=$filepath" >> $GITHUB_ENV 
       
-      - name: Name3
+      - name: Root path.
         run: echo $DIR         
 
-      - name: Hello world action step
-        id: hello
+      - name: Check SQL files.
         uses: FreddyJoseMedina/hello-world-javascript-action@v1.9
         with:
           new-migrations: ${{ env.MIGRATION_DIFF }}
           new-seeders: ${{ env.SEEDERS_DIFF }}
           dir: ${{ env.DIR }}
 
-
-
-      - name: Say Hello
-        run: echo "Hello world! " && export STRING="${{ env.GIT_DIFF }}" && echo ${STRING[1]}.
-      - name: Do stuff
-        run: |
-          echo "Step 1..."
-          echo "Step 2..."
-          echo "Step 3..."
-      - name: check dir
-        run: ls && pwd
-      - name: check Database
-        run: cd Database && ls
-
-      - name: check first line
-        run: |
-          cd Database && VAR=$(eval echo ${{ env.GIT_DIFF }}) && IFS=' ' && read -ra myvar <<< "$VAR" && echo "Number of elements $myvar" && echo ${myvar[1]} && echo ${myvar[0]} &&
-          i=0 && keyWord="--liquibase formatted sql" &&
-          for file in *; do
-          [ -f "$file" ] || continue
-          IFS= read -r line < "$file" || [ -n "$line" ] || continue
-          case $line in
-          ($keyWord);; *) ((i=i+1)) && echo File: ["$file"], No match Liquibase Annotation on first line.;;
-          esac
-          done &&
-          if (($i != 0)); then 
-          exit 0 
-          fi; 
-          
-      - name: check date
-        run: date 
-      - name: Say Goodbye
-        run: echo "Goodbye!"
       
       - name: Add comment to PR
         uses: actions/github-script@v6
