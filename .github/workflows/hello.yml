@@ -91,7 +91,7 @@ jobs:
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const template = 'https://github.com/wbdt-sie/brainiac-api-monolith/blob/develop/database/liquibase_template.sql';
             const success = '${{ job.status }}' === 'success';
-            const body = `The Workflow -> ${name} has: ${success ? 'succeeded ✅' : 'failed ❌\nPlease refer to the following template: ${template}'}\nMore details at: ${url}`;
+            const body = `The Workflow -> ${name} has: ${success ? 'succeeded ✅' : 'failed ❌'}\nPlease refer to the following template: ${template}\nMore details at: ${url}`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
