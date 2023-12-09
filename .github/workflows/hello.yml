@@ -41,7 +41,7 @@ jobs:
         run: echo $DIR         
 
       - name: Check SQL files.
-        uses: FreddyJoseMedina/hello-world-javascript-action@v2.0
+        uses: FreddyJoseMedina/hello-world-javascript-action@v2.1
         with:
           new-migrations: ${{ env.MIGRATION_DIFF }}
           new-seeders: ${{ env.SEEDERS_DIFF }}
