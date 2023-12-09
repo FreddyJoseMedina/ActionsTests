@@ -84,13 +84,14 @@ jobs:
       
       - name: Add comment to PR
         uses: actions/github-script@v6
-        if: 1>0
+        if: ${{ always() && contains(needs.*.result, 'failure') }}
         with:
           script: |
             const name = '${{ github.workflow   }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+            const template = 'https://github.com/wbdt-sie/brainiac-api-monolith/blob/develop/database/liquibase_template.sql'
             const success = '${{ job.status }}' === 'success';
-            const body = `Workflow ${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\nMore details at: ${url}`;
+            const body = `Workflow ${name} has: ${success ? 'succeeded ✅' : 'failed ❌, please refer to the following template: ${template}'}\nMore details at: ${url}`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
