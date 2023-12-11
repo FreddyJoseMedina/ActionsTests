@@ -2,7 +2,7 @@
 
 SET search_path TO wbtvd_owner, public;
 
---comment:20211216_114500_video_partners_endpoints.sql
+--comment: 20211216_114500_video_partners_endpoints.sql
 
 --changeset {AUTHOR}:1_{ID}  logicalFilePath:{migrations/seeders}/{FILENAME}
 INSERT INTO wbtv_functions_permission (function_id, permission_name, sub_function_id, permission_type, display_order, is_default_selection, filter_id, uri_method, uri)
