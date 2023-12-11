@@ -1,4 +1,4 @@
---liquibase formatted sql
+--liquibase formatted sql1
 
 SET search_path TO wbtvd_owner, public;
 
@@ -7,5 +7,3 @@ SET search_path TO wbtvd_owner, public;
 --changeset {AUTHOR}:1_{ID} logicalFilePath:{migrations/seeders}/{FILENAME}
 
 --changeset {AUTHOR}:2_{ID} logicalFilePath:{migrations/seeders}/{FILENAME}
-
---changeset {AUTHOR}:11_{ID} logicalFilePath:{migrations/seeders}/{FILENAME}

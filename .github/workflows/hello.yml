@@ -1,4 +1,4 @@
-name: Check Liquibase Annotations
+name: SQL validator worklow
 on:
   pull_request:
     types: 
@@ -6,6 +6,7 @@ on:
       - synchronize
       - reopened
 jobs:
+
   SQL-validator:
     runs-on: ubuntu-22.04
     timeout-minutes: 30
@@ -14,35 +15,40 @@ jobs:
       pull-requests: write
     
     steps:
+      
       - uses: actions/checkout@v2
       - uses: technote-space/get-diff-action@v6
+        name: Fetch Migrations changes
         with:
           PATTERNS: '*.sql'
           RELATIVE: 'Database/Migration' 
      
       - run: echo "MIGRATION_DIFF=$(eval echo ${{ env.GIT_DIFF }})" >> $GITHUB_ENV
+        name: Creating MIGRATION_DIFF variable
       
       - name: Migrations files changes.
         run: echo $MIGRATION_DIFF 
 
-
       - uses: actions/checkout@v2
       - uses: technote-space/get-diff-action@v6
+        name: Fetch Seeders changes
         with:
           PATTERNS: '*.sql'
           RELATIVE: 'Database/Seeders'
 
       - run: echo "SEEDERS_DIFF=$(eval echo ${{ env.GIT_DIFF }})" >> $GITHUB_ENV
+        name: Creating SEEDERS_DIFF variable
       
       - name: Seeders files changes.
         run: echo $SEEDERS_DIFF    
 
-      - run: filepath=`pwd` && echo "DIR=$filepath" >> $GITHUB_ENV 
+      - run: filepath=`pwd` && echo "DIR=$filepath" >> $GITHUB_ENV
+        name: Creating DIR variable
       
       - name: Root path.
         run: echo $DIR         
 
-      - name: Check SQL files.
+      - name: Validate SQL files.
         id: validator
         uses: ./.github/actions/sql-validator
         with:
@@ -59,7 +65,7 @@ jobs:
             const name = '${{ github.workflow   }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = ${{ steps.validator.outputs.successful-validation }};
-            const body = `The Workflow -> ${name} has: ${success ? 'succeeded ✅' : 'failed ❌'}\n\nMore details at: ${url}`;
+            const body = `${name} -> ${success ? 'succeeded ✅' : 'failed ❌'}\n\nMore details at: ${url}`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
