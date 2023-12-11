@@ -1,8 +1,8 @@
---liquibase formatted sql1
+--liquibase formatted sql
 
 SET search_path TO wbtvd_owner, public;
 
---comment: {FILENAME}
+--comment1: {FILENAME}
 
 --changeset {AUTHOR}:1_{ID} logicalFilePath:{migrations/seeders}/{FILENAME}
 
