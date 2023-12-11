@@ -46,7 +46,7 @@ jobs:
           new-migrations: ${{ env.MIGRATION_DIFF }}
           new-seeders: ${{ env.SEEDERS_DIFF }}
           dir: ${{ env.DIR }}
-          feature-flag: true
+          feature-flag: false
 
       
       - name: Add comment to PR
@@ -56,9 +56,8 @@ jobs:
           script: |
             const name = '${{ github.workflow   }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
-            const template = 'https://github.com/wbdt-sie/brainiac-api-monolith/blob/develop/database/liquibase_template.sql';
             const success = '${{ job.status }}' === 'success';
-            const body = `The Workflow -> ${name} has: ${success ? 'succeeded ✅' : 'failed ❌'}\nPlease use the following template: ${template}\n\nMore details at: ${url}`;
+            const body = `The Workflow -> ${name} has: ${success ? 'succeeded ✅' : 'failed ❌'}\n\nMore details at: ${url}`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
