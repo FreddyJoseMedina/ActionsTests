@@ -42,7 +42,7 @@ jobs:
 
       - name: Check SQL files.
         id: validator
-        uses: FreddyJoseMedina/hello-world-javascript-action@v2.6
+        uses: ./.github/actions/sql-validator
         with:
           new-migrations: ${{ env.MIGRATION_DIFF }}
           new-seeders: ${{ env.SEEDERS_DIFF }}
