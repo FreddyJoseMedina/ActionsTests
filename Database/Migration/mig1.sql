@@ -8,4 +8,4 @@ SET search_path TO wbtvd_owner, public;
 
 --changeset {AUTHOR}:2_{ID} logicalFilePath:{migrations/seeders}/{FILENAME}
 
---changeset {AUTHOR}:6_{ID} logicalFilePath:{migrations/seeders}/{FILENAME}
+--changeset {AUTHOR}:7_{ID} logicalFilePath:{migrations/seeders}/{FILENAME}
