@@ -51,16 +51,17 @@ jobs:
 
       - run: echo "The result was ${{ steps.validator.outputs.successful-validation }}"
         name: Print result
+        if: always()
 
       
       - name: Add comment to PR
         uses: actions/github-script@v6
-        if: ${{ steps.validator.outputs.successful-validation }}
+        if: always()
         with:
           script: |
             const name = '${{ github.workflow   }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
-            const success = '${{ job.status }}' === 'success';
+            const success = ${{ steps.validator.outputs.successful-validation }};
             const body = `The Workflow -> ${name} has: ${success ? 'succeeded ✅' : 'failed ❌'}\n\nMore details at: ${url}`;
 
             await github.rest.issues.createComment({
