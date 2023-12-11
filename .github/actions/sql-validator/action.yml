@@ -23,4 +23,4 @@ outputs:
     description: 'Status of the files validation.'
 runs:
   using: 'node20'
-  main: 'index.js'
+  main: 'dist/index.js'
