@@ -41,17 +41,21 @@ jobs:
         run: echo $DIR         
 
       - name: Check SQL files.
-        uses: FreddyJoseMedina/hello-world-javascript-action@v2.5
+        id: validator
+        uses: FreddyJoseMedina/hello-world-javascript-action@v2.6
         with:
           new-migrations: ${{ env.MIGRATION_DIFF }}
           new-seeders: ${{ env.SEEDERS_DIFF }}
           dir: ${{ env.DIR }}
-          feature-flag: false
+          feature-flag: true
+
+      - run: echo "The result was ${{ steps.validator.outputs.successful-validation }}"
+        name: Print result
 
       
       - name: Add comment to PR
         uses: actions/github-script@v6
-        if: ${{ failure() }}
+        if: ${{ steps.validator.outputs.successful-validation }}
         with:
           script: |
             const name = '${{ github.workflow   }}';
