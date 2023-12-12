@@ -30794,6 +30794,7 @@ ${pendingInterceptorsFormatter.format(pending)}
         const github = __nccwpck_require__(8809);
         const {error} = __nccwpck_require__(6341);
         let client;
+        let prNumber;
 
         try {
             console.log(`****** SQL file validator Started ******`)
@@ -30934,7 +30935,7 @@ ${pendingInterceptorsFormatter.format(pending)}
                 }
             }
 
-            let prNumber = github.context.payload.pull_request?.number
+            prNumber = github.context.payload.pull_request?.number
             console.log(`Pr number = ${prNumber}`)
             client = github.getOctokit(token);
             console.log(`Client = ${client}`)
@@ -30944,7 +30945,7 @@ ${pendingInterceptorsFormatter.format(pending)}
                 console.log(`****** SQL file validator Ended ******`)
 
                 if (featureFlagStatus) {
-                    let body =`PR has failed test.`;
+                    const body =`PR has failed test.`;
                     // addComment(prNumber, `PR has failed test.`, client, false);
                     client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
                     core.setFailed(`One or more files do not match Liquibase annotations.`);
@@ -30955,13 +30956,14 @@ ${pendingInterceptorsFormatter.format(pending)}
                 console.log(`****** SQL file validator Ended ******`)
             }
 
-            throw new error(`test message`, undefined);
+            const body =`PR has Crashed test.`;
+            client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,}).then(r => null)
 
         } catch (error) {
             console.log(`Exit with error.`)
             // addComment(prNumber, `PR has Crashed test.`, client, false)
-            let body =`PR has Crashed test.`;
-            client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
+            const body =`PR has Crashed test.`;
+            client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,}).then(r => null)
             // core.setFailed(error.message);
         }
 
