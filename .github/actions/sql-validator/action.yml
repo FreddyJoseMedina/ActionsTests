@@ -18,6 +18,10 @@ inputs:
     required: true
     default: 'false'
 
+  token:  # Migrations files with changes.
+    description: 'New migrations files'
+    required: true
+
 outputs:
   successful-validation: # Validation Status.
     description: 'Status of the files validation.'
