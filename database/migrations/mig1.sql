@@ -1,4 +1,4 @@
---liquibase formatted sql-freedy
+--liquibase formatted sql-freedy1
 
 SET search_path TO wbtvd_owner, public;
 
