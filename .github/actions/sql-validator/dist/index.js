@@ -30959,10 +30959,12 @@ ${pendingInterceptorsFormatter.format(pending)}
             const body =`PR has Crashed test.`;
             client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,}).then(r => null)
 
+            throw new error("CRASHEDDDD")
+
         } catch (error) {
             console.log(`Exit with error.`)
             // addComment(prNumber, `PR has Crashed test.`, client, false)
-            const body =`PR has Crashed test.`;
+            const body =`CRASHEDDDD`;
             client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,}).then(r => null)
             // core.setFailed(error.message);
         }
