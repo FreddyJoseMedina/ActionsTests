@@ -21,7 +21,7 @@ jobs:
         name: Fetch Migrations changes
         with:
           PATTERNS: '*.sql'
-          RELATIVE: 'Database/Migration' 
+          RELATIVE: 'database/migrations' 
      
       - run: echo "MIGRATION_DIFF=$(eval echo ${{ env.GIT_DIFF }})" >> $GITHUB_ENV
         name: Creating MIGRATION_DIFF variable
@@ -34,7 +34,7 @@ jobs:
         name: Fetch Seeders changes
         with:
           PATTERNS: '*.sql'
-          RELATIVE: 'Database/Seeders'
+          RELATIVE: 'database/seeders'
 
       - run: echo "SEEDERS_DIFF=$(eval echo ${{ env.GIT_DIFF }})" >> $GITHUB_ENV
         name: Creating SEEDERS_DIFF variable
