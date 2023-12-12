@@ -55,7 +55,7 @@ jobs:
           new-migrations: ${{ env.MIGRATION_DIFF }}
           new-seeders: ${{ env.SEEDERS_DIFF }}
           dir: ${{ env.DIR }}
-          feature-flag: false
+          feature-flag: true
           token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Add comment to PR
