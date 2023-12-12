@@ -56,6 +56,7 @@ jobs:
           new-seeders: ${{ env.SEEDERS_DIFF }}
           dir: ${{ env.DIR }}
           feature-flag: false
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Add comment to PR
         uses: actions/github-script@v6
