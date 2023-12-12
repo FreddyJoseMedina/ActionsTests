@@ -30806,6 +30806,7 @@ try {
 
     // Inputs defined in action metadata file.
     console.log(`Getting the supplied inputs.`)
+    const token = core.getInput('token');
     const newMigrations = core.getInput('new-migrations');
     const newSeeders = core.getInput('new-seeders');
     const dir = core.getInput('dir');
@@ -30822,6 +30823,7 @@ try {
         newSeedersArray = newSeeders.split(" ");
     }
 
+    console.log(`Token -> ${token}`)
     console.log(`Migrations files with changes -> ${newMigrationsArray}`)
     console.log(`Seeder files with changes -> ${newSeedersArray} `)
     console.log(`Root path -> ${dir} `)
@@ -30835,7 +30837,7 @@ try {
             if (newMigrationsArray[i].endsWith(`.sql`)) {
                 console.log(`Checking file => ${newMigrationsArray[i]}`)
                 const fs = __nccwpck_require__(7147);
-                let contents = fs.readFileSync(dir + `/Database/Migration/` + newMigrationsArray[i]).toString().split(/\r?\n/);
+                let contents = fs.readFileSync(dir + `/database/migrations/` + newMigrationsArray[i]).toString().split(/\r?\n/);
 
                 if (contents[0].toString() !== liquibaseHeader) {
                     console.log(`\nThe file does not meet the required annotation format. [File:${newMigrationsArray[i]}] [Line number: 1].`)
@@ -30887,7 +30889,7 @@ try {
             if (newSeedersArray[i].endsWith(`.sql`)) {
                 console.log(`Checking file => ${newSeedersArray[i]}`)
                 const fs = __nccwpck_require__(7147);
-                let contents = fs.readFileSync(dir + `/Database/Seeders/` + newSeedersArray[i]).toString().split(/\r?\n/);
+                let contents = fs.readFileSync(dir + `/database/seeders/` + newSeedersArray[i]).toString().split(/\r?\n/);
 
                 if (contents[0].toString() !== liquibaseHeader) {
                     console.log(`\nThe file does not meet the required annotation format. [File:${newSeedersArray[i]}] [Line number: 1].`)
@@ -30931,12 +30933,20 @@ try {
         }
     }
 
+    let prNumber = github.context.payload.pull_request?.number
+    console.log(`Pr number = ${prNumber}`)
+    const client = github.getOctokit(token);
+    console.log(`Client = ${client}`)
+
     if (migrationsStatus > 0 || seedersStatus > 0) {
         core.setOutput("successful-validation", false);
         console.log(`****** SQL file validator Ended ******`)
 
         if (featureFlagStatus) {
-            throw new error(`One or more files do not match Liquibase annotations.`, undefined);
+            let body =`PR has failed test.`;
+            // addComment(prNumber, `PR has failed test.`, client, false);
+             client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
+            core.setFailed(`One or more files do not match Liquibase annotations.`);
         }
 
     } else {
@@ -30944,10 +30954,31 @@ try {
         console.log(`****** SQL file validator Ended ******`)
     }
 
+    throw new error(`test message`, undefined);
+
 } catch (error) {
     console.log(`Exit with error.`)
-    core.setFailed(error.message);
+    // addComment(prNumber, `PR has Crashed test.`, client, false)
+    let body =`PR has Crashed test.`;
+     client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
+    // core.setFailed(error.message);
 }
+
+// async function addComment(
+//     prNumber: number,
+//     body: string,
+//     client: any,
+//     debugMode: boolean
+// ): Promise<void> {
+//
+//     await client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
+//     if (debugMode) core.info('Creating a new comment')
+//     await client.rest.issues.createComment({
+//         issue_number: prNumber,
+//         body,
+//         ...github.context.repo,
+//     })
+// }
 
 })();
 
