@@ -30793,6 +30793,7 @@ ${pendingInterceptorsFormatter.format(pending)}
         const core = __nccwpck_require__(6341);
         const github = __nccwpck_require__(8809);
         const {error} = __nccwpck_require__(6341);
+        let client;
 
         try {
             console.log(`****** SQL file validator Started ******`)
@@ -30935,7 +30936,7 @@ ${pendingInterceptorsFormatter.format(pending)}
 
             let prNumber = github.context.payload.pull_request?.number
             console.log(`Pr number = ${prNumber}`)
-            const client = github.getOctokit(token);
+            client = github.getOctokit(token);
             console.log(`Client = ${client}`)
 
             if (migrationsStatus > 0 || seedersStatus > 0) {
