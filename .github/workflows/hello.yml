@@ -60,20 +60,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           pass-emoji: ':white_check_mark:'
           fail-emoji: ':x:'
-      
-      - name: Add comment to PR
-        uses: actions/github-script@v6
-        if: always()
-        with:
-          script: |
-            const name = '${{ github.workflow   }}';
-            const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
-            const success = ${{ steps.validator.outputs.successful-validation }};
-            const body = `${name} -> ${success ? 'succeeded ✅' : 'failed ❌'}\n\nMore details at: ${url}`;
-
-            await github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body
-            }) 
