@@ -58,7 +58,7 @@ jobs:
           dir: ${{ env.DIR }}
           feature-flag: true
           token: ${{ secrets.GITHUB_TOKEN }}
-          pass-emoji: ':green_circle:'
+          pass-emoji: ':white_check_mark:'
           fail-emoji: ':x:'
       
       - name: Add comment to PR
