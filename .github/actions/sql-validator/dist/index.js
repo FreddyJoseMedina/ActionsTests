@@ -30794,6 +30794,7 @@ ${pendingInterceptorsFormatter.format(pending)}
         const github = __nccwpck_require__(8809);
         const {error} = __nccwpck_require__(6341);
         let client;
+        let prNumber;
 
         try {
             console.log(`****** SQL file validator Started ******`)
@@ -30808,11 +30809,15 @@ ${pendingInterceptorsFormatter.format(pending)}
             // Inputs defined in action metadata file.
             console.log(`Getting the supplied inputs.`)
             const token = core.getInput('token');
+            const passEmoji = core.getInput('pass-emoji');
+            const failEmoji = core.getInput('fail-emoji');
+            const jobUrl = core.getInput('job-url');
             const newMigrations = core.getInput('new-migrations');
             const newSeeders = core.getInput('new-seeders');
             const dir = core.getInput('dir');
             const featureFlag = core.getInput('feature-flag');
             let featureFlagStatus = (featureFlag === 'true')
+            let failedFiles = [];
 
             let newMigrationsArray = [];
             if (newMigrations != null) {
@@ -30824,12 +30829,14 @@ ${pendingInterceptorsFormatter.format(pending)}
                 newSeedersArray = newSeeders.split(" ");
             }
 
-            console.log(`Token -> ${token}`)
+            console.log(`passEmoji -> ${passEmoji}`)
+            console.log(`failEmoji -> ${failEmoji}`)
             console.log(`Migrations files with changes -> ${newMigrationsArray}`)
             console.log(`Seeder files with changes -> ${newSeedersArray} `)
             console.log(`Root path -> ${dir} `)
             console.log(`Feature Flag Status -> ${featureFlagStatus} \n`)
 
+            let alreadyAdded = false;
             let migrationsStatus = 0;
 
             if (newMigrationsArray.length > 0) {
@@ -30844,6 +30851,10 @@ ${pendingInterceptorsFormatter.format(pending)}
                             console.log(`\nThe file does not meet the required annotation format. [File:${newMigrationsArray[i]}] [Line number: 1].`)
                             console.log(`The expected annotation should be: ${liquibaseHeader}`)
                             migrationsStatus = migrationsStatus + 1;
+                            if (!alreadyAdded) {
+                                failedFiles.push(newMigrationsArray[i]);
+                                alreadyAdded = true;
+                            }
                         }
 
                         let numberOfComments = 0;
@@ -30862,6 +30873,10 @@ ${pendingInterceptorsFormatter.format(pending)}
                                     console.log(`\nThe file does not meet the required annotation format. [File:${newMigrationsArray[i]}] [Line number: ${j + 1}].`)
                                     console.log(`The allowed annotations are:\n- For custom comments: ${liquibaseFullComment}\n- For Changesets: ${liquibaseFullChangeset}`)
                                     migrationsStatus = migrationsStatus + 1;
+                                    if (!alreadyAdded) {
+                                        failedFiles.push(newMigrationsArray[i]);
+                                        alreadyAdded = true;
+                                    }
                                 }
                             }
                         }
@@ -30870,13 +30885,22 @@ ${pendingInterceptorsFormatter.format(pending)}
                             console.log(`\nThe File does not present any Comment type annotation with the proper format. [File:${newMigrationsArray[i]}]`)
                             console.log(`There must be at least one Comment type annotation in the file.\ne.g: ${liquibaseFullComment}`)
                             migrationsStatus = migrationsStatus + 1;
+                            if (!alreadyAdded) {
+                                failedFiles.push(newMigrationsArray[i]);
+                                alreadyAdded = true;
+                            }
                         }
 
                         if (numberOfChangeSet === 0) {
                             console.log(`\nThe File does not present any Changeset type annotation with the proper format. [File:${newMigrationsArray[i]}]`)
                             console.log(`There must be at least one Changeset type annotation in the file.\ne.g: ${liquibaseFullChangeset}`)
                             migrationsStatus = migrationsStatus + 1;
+                            if (!alreadyAdded) {
+                                failedFiles.push(newMigrationsArray[i]);
+                                alreadyAdded = true;
+                            }
                         }
+                        alreadyAdded = false;
                         console.log(`File checked. \n`)
                     }
                 }
@@ -30896,6 +30920,10 @@ ${pendingInterceptorsFormatter.format(pending)}
                             console.log(`\nThe file does not meet the required annotation format. [File:${newSeedersArray[i]}] [Line number: 1].`)
                             console.log(`The expected annotation should be: ${liquibaseHeader}`)
                             seedersStatus = seedersStatus + 1;
+                            if (!alreadyAdded) {
+                                failedFiles.push(newSeedersArray[i]);
+                                alreadyAdded = true;
+                            }
                         }
 
                         let numberOfComments = 0;
@@ -30914,6 +30942,10 @@ ${pendingInterceptorsFormatter.format(pending)}
                                     console.log(`\nThe file does not meet the required annotation format. [File:${newSeedersArray[i]}] [Line number: ${j + 1}].`)
                                     console.log(`The allowed annotations are:\n- For custom comments: ${liquibaseFullComment}\n- For Changesets: ${liquibaseFullChangeset}`)
                                     seedersStatus = seedersStatus + 1;
+                                    if (!alreadyAdded) {
+                                        failedFiles.push(newSeedersArray[i]);
+                                        alreadyAdded = true;
+                                    }
                                 }
                             }
                         }
@@ -30922,64 +30954,62 @@ ${pendingInterceptorsFormatter.format(pending)}
                             console.log(`\nThe File does not present any Comment type annotation with the proper format. [File:${newSeedersArray[i]}]`)
                             console.log(`There must be at least one Comment type annotation in the file.\ne.g: ${liquibaseFullComment}`)
                             seedersStatus = seedersStatus + 1;
+                            if (!alreadyAdded) {
+                                failedFiles.push(newSeedersArray[i]);
+                                alreadyAdded = true;
+                            }
                         }
 
                         if (numberOfChangeSet === 0) {
                             console.log(`\nThe File does not present any Changeset type annotation with the proper format. [File:${newSeedersArray[i]}]`)
                             console.log(`There must be at least one Changeset type annotation in the file.\ne.g: ${liquibaseFullChangeset}`)
                             seedersStatus = seedersStatus + 1;
+                            if (!alreadyAdded) {
+                                failedFiles.push(newSeedersArray[i]);
+                                alreadyAdded = true;
+                            }
                         }
                         console.log(`File checked. \n`)
+                        alreadyAdded = false;
                     }
                 }
             }
 
-            let prNumber = github.context.payload.pull_request?.number
+            prNumber = github.context.payload.pull_request?.number
             console.log(`Pr number = ${prNumber}`)
             client = github.getOctokit(token);
             console.log(`Client = ${client}`)
 
+            let failedFilesToPrint = '';
+            for (let k = 0; k < failedFiles.length; k++) {
+                failedFilesToPrint = `${failedFilesToPrint}\n ${failedFiles[k]}`
+            }
+
             if (migrationsStatus > 0 || seedersStatus > 0) {
                 core.setOutput("successful-validation", false);
-                console.log(`****** SQL file validator Ended ******`)
+
+                const body =`${failEmoji} The following files do not meet the required Liquibase annotations. ${failedFilesToPrint} \n\n More details at: ${jobUrl}`;
+                client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
 
                 if (featureFlagStatus) {
-                    let body =`PR has failed test.`;
-                    // addComment(prNumber, `PR has failed test.`, client, false);
-                    client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
                     core.setFailed(`One or more files do not match Liquibase annotations.`);
                 }
+                console.log(`****** SQL file validator Ended ******`)
 
             } else {
                 core.setOutput("successful-validation", true);
+                const body =`${passEmoji} All files comply with the Liquibase annotations. ${failedFilesToPrint} `;
+                client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
                 console.log(`****** SQL file validator Ended ******`)
             }
 
-            throw new error(`test message`, undefined);
-
         } catch (error) {
             console.log(`Exit with error.`)
-            // addComment(prNumber, `PR has Crashed test.`, client, false)
-            let body =`PR has Crashed test.`;
+
+            const body =`An exception was caught trying to validate the SQL files. [exception = ${error}] `;
             client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
-            // core.setFailed(error.message);
         }
 
-// async function addComment(
-//     prNumber: number,
-//     body: string,
-//     client: any,
-//     debugMode: boolean
-// ): Promise<void> {
-//
-//     await client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
-//     if (debugMode) core.info('Creating a new comment')
-//     await client.rest.issues.createComment({
-//         issue_number: prNumber,
-//         body,
-//         ...github.context.repo,
-//     })
-// }
 
     })();
 
