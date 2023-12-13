@@ -60,4 +60,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           pass-emoji: ':white_check_mark:'
           fail-emoji: ':x:'
+          job-url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
 

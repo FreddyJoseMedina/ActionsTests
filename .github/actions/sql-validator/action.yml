@@ -30,6 +30,10 @@ inputs:
     description: 'emoji when the validator fails'
     required: true
 
+  job-url:  # url of the job.
+    description: 'url of the job'
+    required: true
+
 outputs:
   successful-validation: # Validation Status.
     description: 'Status of the files validation.'
