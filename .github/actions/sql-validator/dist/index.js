@@ -30979,10 +30979,15 @@ ${pendingInterceptorsFormatter.format(pending)}
             client = github.getOctokit(token);
             console.log(`Client = ${client}`)
 
+            let failedFilesToPrint = '';
+            for (let k = 1; k < failedFiles.length; k++) {
+                failedFilesToPrint = `${failedFilesToPrint}\n ${failedFiles[k]}`
+            }
+
             if (migrationsStatus > 0 || seedersStatus > 0) {
                 core.setOutput("successful-validation", false);
 
-                const body =`${failEmoji} All files comply with the required annotations. \n ${failedFiles} `;
+                const body =`${failEmoji} The following files do not meet the required Liquibase annotations. ${failedFilesToPrint} `;
                 client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
 
                 if (featureFlagStatus) {
@@ -30992,7 +30997,7 @@ ${pendingInterceptorsFormatter.format(pending)}
 
             } else {
                 core.setOutput("successful-validation", true);
-                const body =`${passEmoji} All files comply with the required annotations. \n ${failedFiles} `;
+                const body =`${passEmoji} All files comply with the required annotations. ${failedFilesToPrint} `;
                 client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
                 console.log(`****** SQL file validator Ended ******`)
             }

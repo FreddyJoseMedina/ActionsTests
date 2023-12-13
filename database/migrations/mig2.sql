@@ -1,4 +1,4 @@
---liquibase formatted sql
+--liquibase formatted sql2
 
 SET search_path TO wbtvd_owner, public;
 
