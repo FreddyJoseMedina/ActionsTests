@@ -30980,7 +30980,7 @@ ${pendingInterceptorsFormatter.format(pending)}
             console.log(`Client = ${client}`)
 
             let failedFilesToPrint = '';
-            for (let k = 1; k < failedFiles.length; k++) {
+            for (let k = 0; k < failedFiles.length; k++) {
                 failedFilesToPrint = `${failedFilesToPrint}\n ${failedFiles[k]}`
             }
 
