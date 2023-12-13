@@ -30987,7 +30987,7 @@ ${pendingInterceptorsFormatter.format(pending)}
             if (migrationsStatus > 0 || seedersStatus > 0) {
                 core.setOutput("successful-validation", false);
 
-                const body =`${failEmoji} The following files do not meet the required Liquibase annotations. ${failedFilesToPrint} `;
+                const body =`[${failEmoji}] The following files do not meet the required Liquibase annotations. ${failedFilesToPrint} `;
                 client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
 
                 if (featureFlagStatus) {
@@ -30997,7 +30997,7 @@ ${pendingInterceptorsFormatter.format(pending)}
 
             } else {
                 core.setOutput("successful-validation", true);
-                const body =`${passEmoji} All files comply with the required annotations. ${failedFilesToPrint} `;
+                const body =`[${passEmoji}] All files comply with the Liquibase annotations. ${failedFilesToPrint} `;
                 client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
                 console.log(`****** SQL file validator Ended ******`)
             }
