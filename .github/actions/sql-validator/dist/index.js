@@ -30988,7 +30988,7 @@ ${pendingInterceptorsFormatter.format(pending)}
             if (migrationsStatus > 0 || seedersStatus > 0) {
                 core.setOutput("successful-validation", false);
 
-                const body =`${failEmoji} The following files do not meet the required Liquibase annotations. ${failedFilesToPrint} \n\n More details at:${jobUrl}`;
+                const body =`${failEmoji} The following files do not meet the required Liquibase annotations. ${failedFilesToPrint} \n\n More details at: ${jobUrl}`;
                 client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
 
                 if (featureFlagStatus) {
