@@ -30982,7 +30982,7 @@ ${pendingInterceptorsFormatter.format(pending)}
             if (migrationsStatus > 0 || seedersStatus > 0) {
                 core.setOutput("successful-validation", false);
 
-                const body =`SQL validator fails with the following files: ${failEmoji}\n ${failedFiles}  `;
+                const body =`${passEmoji} All files comply with the required annotations. \n ${failedFiles} `;
                 client.rest.issues.createComment({issue_number: prNumber, body, ...github.context.repo,})
 
                 if (featureFlagStatus) {
